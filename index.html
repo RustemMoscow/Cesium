@@ -1,0 +1,202 @@
+
+<html>
+	<head>
+		<script src="Cesium.js"></script>
+		<script src="three.min.js"></script>
+		<script src="jquery.min.js"></script>		
+<style>
+      @import url(./Widgets/widgets.css);
+      html, body, #cesiumContainer {
+          width: 100%; height: 100%; margin: 0; padding: 0; overflow: hidden;
+      }
+  </style>
+</head>
+<body>
+  <div id="cesiumContainer"></div>
+<canvas id="three" style="position: absolute; top: 0; pointer-events: none;"></canvas>  
+<script>
+	var viewer = new Cesium.Viewer('cesiumContainer',{animation: false, timeline: false, 
+fullscreenButton: false});
+
+			var canva = document.getElementById("three");
+
+			var renderer = new THREE.WebGLRenderer( { antialias: true, canvas: canva, alpha: true } );
+
+			
+
+			renderer.setPixelRatio( window.devicePixelRatio );
+
+			renderer.setSize( window.innerWidth, window.innerHeight );
+
+			renderer.setClearColor( 0xffffff, 0 );
+
+			//document.body.appendChild( renderer.domElement );
+
+		
+
+			var scene = new THREE.Scene();
+
+			var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 50 );
+
+			camera.position.z = 20;
+
+						
+
+			var mesh = new THREE.Object3D();
+
+			
+
+			var geometry = new THREE.SphereGeometry( 9.5, 32, 32 );
+
+			//var material = new THREE.MeshLambertMaterial( { opacity:.5, color:0xFF9942, emissive: 0x353535, wireframe: true } );
+
+			
+
+			var m0 = new THREE.Mesh(
+
+
+
+				geometry,
+
+
+
+				new THREE.MeshBasicMaterial( {
+
+					color: 0xff0000,
+
+					transparent: true,
+
+					blending: THREE.SubtractiveBlending
+
+				} )
+
+
+
+			)
+
+		m0.position.z = 0;
+
+			
+
+			mesh.add( m0 );
+
+
+
+			scene.add( mesh );
+
+			
+
+			var geometry2 = new THREE.SphereGeometry( 10, 32, 32 );
+
+			//var material = new THREE.MeshLambertMaterial( { opacity:.5, color:0xFF9942, emissive: 0x353535, wireframe: true } );
+
+			
+
+			var m1 = new THREE.Mesh(
+
+
+
+				geometry2,
+
+
+
+				new THREE.MeshBasicMaterial( {
+
+					color: 0xff0000,
+
+					blending: THREE.AdditiveBlending,
+
+					wireframe: true 
+
+				} )
+
+
+
+			)
+
+			
+
+			m1.position.x = 0;
+
+			
+
+			mesh.add( m1 );
+
+
+
+			scene.add( mesh );
+
+			
+
+			var lights = [];
+
+			lights[ 0 ] = new THREE.PointLight( 0xffffff, 1, 0 );
+
+
+
+			lights[ 0 ].position.set( 200, 200, 0 );
+
+
+
+			scene.add( lights[ 0 ] );
+
+
+
+
+
+			var render = function () {
+
+
+
+				/*requestAnimationFrame( render );
+
+
+
+				mesh.rotation.x += 0.005;
+
+				mesh.rotation.y += 0.005;*/
+
+
+
+
+
+				renderer.render( scene, camera );
+
+
+
+			};
+
+
+
+			/*var orbit = new THREE.OrbitControls( camera, renderer.domElement );
+
+			orbit.addEventListener( 'change', render );
+
+			orbit.enableZoom = true;*/
+
+			
+
+			window.addEventListener( 'resize', function () {
+
+
+
+				camera.aspect = window.innerWidth / window.innerHeight;
+
+				camera.updateProjectionMatrix();
+
+
+
+				renderer.setSize( window.innerWidth, window.innerHeight );
+
+				render();
+
+
+
+			}, false );
+
+
+
+	render();			  
+</script>
+</body>
+</html>
